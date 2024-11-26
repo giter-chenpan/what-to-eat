@@ -8,9 +8,10 @@ const request = axios.create({
 request.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    config.headers.Authorization =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQzMjYzNzEsImlkIjoiNCIsImV4cCI6MTcyNDQxMjc3MX0.BPoljlYDHHochJcDGWO95DMyeXXsM4gcSZKKRrrCwv4";
-    console.log(config);
+    // config.headers.Authorization =
+    //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzIwMDgzMDQsInN1YiI6IjQiLCJleHAiOjE3MzQ2MDAzMDR9.jtBmeBN0Uipq5_gywmzbam4NlJqfaOpvClKx69eRNxY";
+    // console.log(config);
+    config.headers.Authorization = localStorage.getItem("token");
     return config;
   },
   function (error) {
