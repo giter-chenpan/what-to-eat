@@ -2,10 +2,11 @@
 
 import { AppOutline, UserOutline } from "antd-mobile-icons";
 import { TabBar } from "antd-mobile";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function TabNav() {
   const router = useRouter();
+  const pathname = usePathname();
   const tabs = [
     {
       key: "/nav/home",
@@ -24,7 +25,12 @@ export default function TabNav() {
   };
 
   return (
-    <TabBar onChange={handleChange} safeArea className=" border-t-1 ">
+    <TabBar
+      onChange={handleChange}
+      safeArea
+      className=" border-t-1 "
+      defaultActiveKey={pathname}
+    >
       {tabs.map((item) => (
         <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
       ))}
