@@ -9,6 +9,12 @@
 }
 :root:root {
   --adm-color-primary: #e90;
+  .adm-form{
+    --border-top: unset
+  }
+  .adm-list-item{
+    padding-left: 0;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

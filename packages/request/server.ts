@@ -25,12 +25,12 @@ export interface ImportDishes {
 
 export type FileUpload2 = object;
 
-export namespace Login {
+export namespace Anon {
   /**
    * No description
    * @tags auth
    * @name AuthLogin
-   * @request POST:/login
+   * @request POST:/anon/login
    * @response `200` `any`
    */
   export namespace AuthLogin {
@@ -40,14 +40,12 @@ export namespace Login {
     export type RequestHeaders = {};
     export type ResponseBody = any;
   }
-}
 
-export namespace Register {
   /**
    * No description
    * @tags auth
    * @name AuthRegister
-   * @request POST:/register
+   * @request POST:/anon/register
    * @response `200` `any`
    */
   export namespace AuthRegister {
@@ -59,12 +57,12 @@ export namespace Register {
   }
 }
 
-export namespace Getuserinfo {
+export namespace Api {
   /**
    * No description
    * @tags auth
    * @name AuthGetUserInfo
-   * @request GET:/getuserinfo
+   * @request GET:/api/getuserinfo
    * @secure
    * @response `200` `any`
    */
@@ -75,9 +73,7 @@ export namespace Getuserinfo {
     export type RequestHeaders = {};
     export type ResponseBody = any;
   }
-}
 
-export namespace Api {
   /**
    * @description Import cuisine classification from excel
    * @tags category
@@ -340,37 +336,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       ...params,
     });
 
-  login = {
+  anon = {
     /**
      * No description
      *
      * @tags auth
      * @name AuthLogin
-     * @request POST:/login
+     * @request POST:/anon/login
      * @response `200` `any`
      */
     authLogin: (data: Params, params: RequestParams = {}) =>
       this.request<any, any>({
-        path: `/login`,
+        path: `/anon/login`,
         method: "POST",
         body: data,
         type: ContentType.Json,
         format: "json",
         ...params,
       }),
-  };
-  register = {
+
     /**
      * No description
      *
      * @tags auth
      * @name AuthRegister
-     * @request POST:/register
+     * @request POST:/anon/register
      * @response `200` `any`
      */
     authRegister: (data: Params, params: RequestParams = {}) =>
       this.request<any, any>({
-        path: `/register`,
+        path: `/anon/register`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -378,26 +373,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  getuserinfo = {
+  api = {
     /**
      * No description
      *
      * @tags auth
      * @name AuthGetUserInfo
-     * @request GET:/getuserinfo
+     * @request GET:/api/getuserinfo
      * @secure
      * @response `200` `any`
      */
     authGetUserInfo: (params: RequestParams = {}) =>
       this.request<any, any>({
-        path: `/getuserinfo`,
+        path: `/api/getuserinfo`,
         method: "GET",
         secure: true,
         format: "json",
         ...params,
       }),
-  };
-  api = {
+
     /**
      * @description Import cuisine classification from excel
      *

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "exports": {
-    ".": "./index.ts"
+    ".": "./server.ts"
   },
   "scripts": {
     "dev": "node gen.js"
