@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "antd-mobile";
-// import { useMutation } from "@tanstack/react-query";
-// import Request from "@/common/request";
 
 export default function Home() {
   return (

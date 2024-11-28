@@ -7,6 +7,10 @@ const nextConfig = {
             {
                 source: '/api/:path*',
                 destination: 'http://127.0.0.1:8088/api/:path*'
+            },
+            {
+                source: '/getuserinfo',
+                destination: 'http://127.0.0.1:8088/getuserinfo'
             }
         ]
     }

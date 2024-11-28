@@ -1,9 +1,9 @@
 {
-  "name": "@what-to-eat/request",
+  "name": "@repo/request",
   "version": "1.0.0",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./index.ts"
   },
   "scripts": {
     "dev": "node gen.js"

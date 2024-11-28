@@ -14,3 +14,4 @@ pnpm remove {packageName}  --filter={appName}
 - [swagger-typescript-api](https://www.npmjs.com/package/swagger-typescript-api)
 - [turbo-repo](https://turbo.build/repo/docs)
 - [next.js](https://nextjs.org/docs)
+- [@tanstack/react-query](https://tanstack.com/query/latest/docs/react/overview)

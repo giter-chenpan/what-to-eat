@@ -1,5 +1,5 @@
-import { HttpClient } from "./server";
-const request = new HttpClient({ timeout: 1000 });
+import { Api } from "./server";
+const request = new Api({ timeout: 1000 });
 
 // 添加请求拦截器
 request.instance.interceptors.request.use(

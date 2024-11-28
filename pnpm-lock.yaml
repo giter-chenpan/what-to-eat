@@ -14,6 +14,9 @@ importers:
 
   apps/mobile:
     dependencies:
+      '@repo/request':
+        specifier: workspace:*
+        version: link:../../packages/request
       '@tanstack/react-query':
         specifier: ^5.52.0
         version: 5.52.0(react@18.3.1)
