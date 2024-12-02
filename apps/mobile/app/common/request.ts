@@ -32,7 +32,7 @@ request.instance.interceptors.response.use(
 
       return Promise.reject(response);
     }
-    return response;
+    return response.data;
   },
   function (error) {
     if (error.status === 401) {
