@@ -8,12 +8,15 @@ import {
   Picker,
   DatePickerRef,
   ImageUploader,
+  Toast,
 } from "antd-mobile";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Request from "@/common/request";
+import { useRouter } from "next/navigation";
 
 export default function Dishes() {
   const [form] = Form.useForm();
+  const router = useRouter();
   const { data: categories } = useQuery({
     queryKey: ["dishesCategoryList"],
     queryFn: () => Request.api.apiCategoryGetCategory(),
@@ -41,6 +44,7 @@ export default function Dishes() {
         category_id: categoryId?.[0].toString(),
         view_id: images?.[0].id.toString(),
       });
+      Toast.show({ content: '添加成功!', afterClose: () => router.back() })
     },
   });
 
