@@ -23,6 +23,13 @@ export interface ImportDishes {
   view_id: string;
 }
 
+export interface FindPage {
+  /** @format int32 */
+  page: number;
+  /** @format int32 */
+  page_size: number;
+}
+
 export type FileUpload2 = object;
 
 export namespace Anon {
@@ -142,6 +149,22 @@ export namespace Api {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = ImportDishes;
+    export type RequestHeaders = {};
+    export type ResponseBody = any;
+  }
+
+  /**
+   * No description
+   * @tags dishes
+   * @name ApiDishesFindPage
+   * @request POST:/api/dishes/findpage
+   * @secure
+   * @response `200` `any`
+   */
+  export namespace ApiDishesFindPage {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = FindPage;
     export type RequestHeaders = {};
     export type ResponseBody = any;
   }
@@ -476,6 +499,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     apiDishesSaveDishes: (data: ImportDishes, params: RequestParams = {}) =>
       this.request<any, any>({
         path: `/api/dishes/save`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags dishes
+     * @name ApiDishesFindPage
+     * @request POST:/api/dishes/findpage
+     * @secure
+     * @response `200` `any`
+     */
+    apiDishesFindPage: (data: FindPage, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/api/dishes/findpage`,
         method: "POST",
         body: data,
         secure: true,
