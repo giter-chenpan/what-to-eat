@@ -36,7 +36,7 @@ request.instance.interceptors.response.use(
   },
   function (error) {
     if (error.status === 401) {
-      window.history.replaceState(null, "", "/login");
+      window.location.replace("/login");
     }
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么

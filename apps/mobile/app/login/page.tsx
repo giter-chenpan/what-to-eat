@@ -10,8 +10,8 @@ export default function Login() {
   const handleSubmit = async () => {
     const res = await form.validateFields();
 
-    const { data } = await request.anon.authLogin({ ...res });
-    console.log(data);
+    const data = await request.anon.authLogin({ ...res });
+    // @ts-ignore
     localStorage.setItem("token", data?.token);
     Toast.show({
       content: "登录成功",
