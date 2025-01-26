@@ -170,6 +170,22 @@ export namespace Api {
   }
 
   /**
+   * No description
+   * @tags dishes
+   * @name ApiDishesGetRandomDishes
+   * @request GET:/api/dishes/random
+   * @secure
+   * @response `200` `any`
+   */
+  export namespace ApiDishesGetRandomDishes {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = any;
+  }
+
+  /**
    * @description Upload image to server
    * @tags file
    * @name ApiFileUploadFile
@@ -523,6 +539,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags dishes
+     * @name ApiDishesGetRandomDishes
+     * @request GET:/api/dishes/random
+     * @secure
+     * @response `200` `any`
+     */
+    apiDishesGetRandomDishes: (params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/api/dishes/random`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
