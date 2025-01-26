@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "turbo run dev",
+    "start": "turbo run start",
     "build": "turbo run build"
   },
   "keywords": [],
