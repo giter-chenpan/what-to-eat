@@ -1,7 +1,7 @@
 "use client";
 
 import { SmileOutline } from "antd-mobile-icons";
-import { List, Button } from "antd-mobile";
+import { List, Button, Dialog } from "antd-mobile";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Request from "@/common/request";
@@ -12,6 +12,15 @@ export default function Mine() {
     queryFn: Request.api.authGetUserInfo,
   });
   const router = useRouter();
+  const handleLogout = () => {
+    Dialog.confirm({
+      content: "确定要退出登录吗？",
+      onConfirm: () => {
+        localStorage.removeItem("token");
+        router.push("/login");
+      },
+    });
+  };
   return (
     <div className="flex flex-col items-center  h-full pt-20 px-5">
       <SmileOutline style={{ fontSize: "100px" }} />
@@ -23,7 +32,7 @@ export default function Mine() {
         <Button
           color="primary"
           fill="outline"
-          onClick={() => {}}
+          onClick={handleLogout}
           block
           className="mt-7"
         >

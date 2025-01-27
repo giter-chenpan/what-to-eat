@@ -35,6 +35,9 @@ body {
   color: rgb(var(--foreground-rgb));
   height: 100%;
 }
+svg{
+  display: inline-block;
+}
 
 @layer utilities {
   .text-balance {
