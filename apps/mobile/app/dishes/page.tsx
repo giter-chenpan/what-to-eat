@@ -20,7 +20,7 @@ export default function Dash() {
       <Collapse accordion>
         {data?.data?.list?.map((v: any) => (
           <Collapse.Panel key={v.id} title={v.name}>
-            <Image src={`/api/file/getimage?id=${v.id}`} alt="" lazy />
+            <Image src={`/api/file/getimage?id=${v.view_id}`} alt="" lazy />
             <div>{v.desc}</div>
             <div>
               上传时间： {dayjs(v.create_time).format("YYYY-MM-DD HH:mm:ss")}
