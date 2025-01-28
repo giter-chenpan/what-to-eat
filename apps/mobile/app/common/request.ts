@@ -1,7 +1,7 @@
 import { Api } from "@repo/request";
 import { Toast } from "antd-mobile";
 
-const request = new Api({ timeout: 1000 });
+const request = new Api({ timeout: 100000 });
 
 // 添加请求拦截器
 request.instance.interceptors.request.use(

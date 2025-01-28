@@ -13,6 +13,7 @@
             "persistent": true
         },
         "build": {
+            "cache": true,
             "outputs": [
                 ".next/**",
                 "!.next/cache/**"
