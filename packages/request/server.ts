@@ -32,9 +32,57 @@ export interface FindPage {
 
 export type FileUpload2 = object;
 
+export interface RepForNullableArrayOfItem {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: Item[] | null;
+}
+
+export interface Item {
+  title: string;
+  translation: WordTranslation[];
+  word_type_enum?: WordType | null;
+  pronunciation: Pronunciation[];
+}
+
+export interface WordTranslation {
+  word?: string | null;
+  examples: ItemExample[];
+}
+
+export interface ItemExample {
+  label: string;
+  value?: string | null;
+}
+
+export interface WordType {
+  name: string;
+  description: string;
+}
+
+export interface Pronunciation {
+  lang: string;
+  source: string;
+  pron: string;
+}
+
 export interface Translation {
   destination: string;
   words: string;
+}
+
+export interface RepForNullableArrayOfWordsRepItem {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: WordsRepItem[] | null;
+}
+
+export interface WordsRepItem {
+  beta: boolean;
+  url: string;
+  word: string;
 }
 
 export namespace Anon {
@@ -231,14 +279,14 @@ export namespace Api {
    * @name ApiTranslationHandleTranslation
    * @request POST:/api/translation/words
    * @secure
-   * @response `200` `any`
+   * @response `200` `RepForNullableArrayOfItem`
    */
   export namespace ApiTranslationHandleTranslation {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = Translation;
     export type RequestHeaders = {};
-    export type ResponseBody = any;
+    export type ResponseBody = RepForNullableArrayOfItem;
   }
 
   /**
@@ -247,14 +295,14 @@ export namespace Api {
    * @name ApiTranslationGetWords
    * @request POST:/api/translation/get_words
    * @secure
-   * @response `200` `any`
+   * @response `200` `RepForNullableArrayOfWordsRepItem`
    */
   export namespace ApiTranslationGetWords {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = Translation;
     export type RequestHeaders = {};
-    export type ResponseBody = any;
+    export type ResponseBody = RepForNullableArrayOfWordsRepItem;
   }
 }
 
@@ -649,10 +697,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ApiTranslationHandleTranslation
      * @request POST:/api/translation/words
      * @secure
-     * @response `200` `any`
+     * @response `200` `RepForNullableArrayOfItem`
      */
     apiTranslationHandleTranslation: (data: Translation, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<RepForNullableArrayOfItem, any>({
         path: `/api/translation/words`,
         method: "POST",
         body: data,
@@ -669,10 +717,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name ApiTranslationGetWords
      * @request POST:/api/translation/get_words
      * @secure
-     * @response `200` `any`
+     * @response `200` `RepForNullableArrayOfWordsRepItem`
      */
     apiTranslationGetWords: (data: Translation, params: RequestParams = {}) =>
-      this.request<any, any>({
+      this.request<RepForNullableArrayOfWordsRepItem, any>({
         path: `/api/translation/get_words`,
         method: "POST",
         body: data,

@@ -24,7 +24,8 @@ request.instance.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-    if (response.data.code !== "success") {
+    console.log(response);
+    if (![200, "success"].includes(response.data.code)) {
       Toast.show({
         content: response.data.msg || "请求失败",
         icon: "fail",

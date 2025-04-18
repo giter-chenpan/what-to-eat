@@ -23,6 +23,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.52.0
         version: 5.52.0(@tanstack/react-query@5.52.0)(react@18.3.1)
+      ahooks:
+        specifier: ^3.8.4
+        version: 3.8.4(react@18.3.1)
       antd-mobile:
         specifier: ^5.34.0
         version: 5.37.1(react-dom@18.3.1)(react@18.3.1)
@@ -577,8 +580,8 @@ packages:
     hasBin: true
     dev: true
 
-  /ahooks@3.8.1(react@18.3.1):
-    resolution: {integrity: sha512-JoP9+/RWO7MnI/uSKdvQ8WB10Y3oo1PjLv+4Sv4Vpm19Z86VUMdXh+RhWvMGxZZs06sq2p0xVtFk8Oh5ZObsoA==}
+  /ahooks@3.8.4(react@18.3.1):
+    resolution: {integrity: sha512-39wDEw2ZHvypaT14EpMMk4AzosHWt0z9bulY0BeDsvc9PqJEV+Kjh/4TZfftSsotBMq52iYIOFPd3PR56e0ZJg==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -642,7 +645,7 @@ packages:
       '@rc-component/mini-decimal': 1.1.0
       '@react-spring/web': 9.6.1(react-dom@18.3.1)(react@18.3.1)
       '@use-gesture/react': 10.3.0(react@18.3.1)
-      ahooks: 3.8.1(react@18.3.1)
+      ahooks: 3.8.4(react@18.3.1)
       antd-mobile-icons: 0.3.0
       antd-mobile-v5-count: 1.0.1
       classnames: 2.5.1

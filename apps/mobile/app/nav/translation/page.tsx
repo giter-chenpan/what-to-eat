@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
 import { SearchBar, Selector } from "antd-mobile";
+import { useDebounceFn } from "ahooks";
 import { useMutation } from "@tanstack/react-query";
 import Request from "@/common/request";
 
 export default function Translation() {
   const [direction, setDirection] = useState<"en" | "zh">("zh");
 
-  const { mutate: translation } = useMutation({
+  const { mutate: hanldeTranslation } = useMutation({
     mutationFn: (text: string) =>
       Request.api.apiTranslationGetWords({
         destination: direction,
@@ -20,9 +21,12 @@ export default function Translation() {
     { label: "汉译英", value: "en" },
   ];
 
-  const handleChange = (val: string) => {
-    translation(val);
-  };
+  const { run: handleChange } = useDebounceFn(
+    (val: string) => {
+      hanldeTranslation(val);
+    },
+    { wait: 2000 }
+  );
 
   return (
     <div className="pt-5 pb-10 px-2.5 h-full">

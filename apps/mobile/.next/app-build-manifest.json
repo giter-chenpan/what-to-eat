@@ -17,24 +17,6 @@
       "static/chunks/main-app.js",
       "static/css/app/nav/translation/page.css",
       "static/chunks/app/nav/translation/page.js"
-    ],
-    "/nav/mine/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/nav/mine/page.css",
-      "static/chunks/app/nav/mine/page.js"
-    ],
-    "/nav/home/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/nav/home/page.css",
-      "static/chunks/app/nav/home/page.js"
-    ],
-    "/dishes/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/dishes/page.css",
-      "static/chunks/app/dishes/page.js"
     ]
   }
 }
