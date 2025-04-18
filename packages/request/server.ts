@@ -32,6 +32,11 @@ export interface FindPage {
 
 export type FileUpload2 = object;
 
+export interface Translation {
+  destination: string;
+  words: string;
+}
+
 export namespace Anon {
   /**
    * No description
@@ -216,6 +221,38 @@ export namespace Api {
       id: string;
     };
     export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = any;
+  }
+
+  /**
+   * No description
+   * @tags translation
+   * @name ApiTranslationHandleTranslation
+   * @request POST:/api/translation/words
+   * @secure
+   * @response `200` `any`
+   */
+  export namespace ApiTranslationHandleTranslation {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = Translation;
+    export type RequestHeaders = {};
+    export type ResponseBody = any;
+  }
+
+  /**
+   * No description
+   * @tags translation
+   * @name ApiTranslationGetWords
+   * @request POST:/api/translation/get_words
+   * @secure
+   * @response `200` `any`
+   */
+  export namespace ApiTranslationGetWords {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = Translation;
     export type RequestHeaders = {};
     export type ResponseBody = any;
   }
@@ -601,6 +638,46 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/file/getimage`,
         method: "GET",
         query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags translation
+     * @name ApiTranslationHandleTranslation
+     * @request POST:/api/translation/words
+     * @secure
+     * @response `200` `any`
+     */
+    apiTranslationHandleTranslation: (data: Translation, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/api/translation/words`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags translation
+     * @name ApiTranslationGetWords
+     * @request POST:/api/translation/get_words
+     * @secure
+     * @response `200` `any`
+     */
+    apiTranslationGetWords: (data: Translation, params: RequestParams = {}) =>
+      this.request<any, any>({
+        path: `/api/translation/get_words`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

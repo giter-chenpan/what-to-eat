@@ -11,7 +11,7 @@
   "author": "chenpan",
   "license": "ISC",
   "devDependencies": {
-    "turbo": "^1.11.3"
+    "turbo": "^1.13.4"
   },
   "engines": {
     "node": ">=18"

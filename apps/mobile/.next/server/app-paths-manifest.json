@@ -1,10 +1,4 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/dishes/add/page": "app/dishes/add/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/login/page": "app/login/page.js",
-  "/dishes/page": "app/dishes/page.js",
-  "/page": "app/page.js",
-  "/nav/home/page": "app/nav/home/page.js",
-  "/nav/mine/page": "app/nav/mine/page.js"
+  "/nav/mine/page": "app/nav/mine/page.js",
+  "/nav/translation/page": "app/nav/translation/page.js"
 }

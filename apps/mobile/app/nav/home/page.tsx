@@ -10,6 +10,7 @@ export default function Home() {
         <div className="text-center flex flex-col items-center">
           <div className="font-bold text-xl">{data.name}</div>
           <Image
+            alt="pic"
             src={`/api/file/getimage?id=${data.view_id}`}
             width={200}
             height={200}
