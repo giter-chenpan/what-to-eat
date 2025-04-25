@@ -1,4 +1,4 @@
-// File: /Users/chenpan/Documents/doc/my-project/what-to-eat/apps/mobile/app/nav/home/page.tsx
+// File: /www/what-to-eat/apps/mobile/app/nav/home/page.tsx
 import * as entry from '../../../../../app/nav/home/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
