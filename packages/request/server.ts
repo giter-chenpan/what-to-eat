@@ -23,13 +23,6 @@ export interface ImportDishes {
   view_id: string;
 }
 
-export interface FindPage {
-  /** @format int32 */
-  page: number;
-  /** @format int32 */
-  page_size: number;
-}
-
 export type FileUpload2 = object;
 
 export interface RepForNullableArrayOfItem {
@@ -217,7 +210,7 @@ export namespace Api {
   export namespace ApiDishesFindPage {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = FindPage;
+    export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = any;
   }
@@ -617,13 +610,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      * @response `200` `any`
      */
-    apiDishesFindPage: (data: FindPage, params: RequestParams = {}) =>
+    apiDishesFindPage: (params: RequestParams = {}) =>
       this.request<any, any>({
         path: `/api/dishes/findpage`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),

@@ -38,7 +38,12 @@ request.instance.interceptors.response.use(
   function (error) {
     if (error.status === 401) {
       window.location.replace("/login");
+      return;
     }
+    Toast.show({
+      content: error.response.data.msg || "请求失败",
+      icon: "fail",
+    });
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     return Promise.reject(error);
