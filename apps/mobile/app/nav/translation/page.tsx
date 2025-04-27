@@ -95,7 +95,7 @@ export default function Translation() {
         )}
       </div>
 
-      {translationResult?.length > 0 && (
+      {(translationResult?.length || 0) > 0 && (
         <Tabs defaultActiveKey="0">
           {translationResult?.map(
             ({ title, word_type_enum, pronunciation, translation }, i) => (

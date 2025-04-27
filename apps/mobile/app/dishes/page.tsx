@@ -13,12 +13,11 @@ export default function Dash() {
     queryKey: ["dishesList"],
     queryFn: () => Request.api.apiDishesFindPage(),
   });
-  console.log(data);
 
   return (
     <div className=" h-full p-3">
       <Collapse accordion>
-        {data?.data?.list?.map((v: any) => (
+        {data?.list?.map((v: any) => (
           <Collapse.Panel key={v.id} title={v.name}>
             <Image src={`/api/file/getimage?id=${v.view_id}`} alt="" lazy />
             <div>{v.desc}</div>

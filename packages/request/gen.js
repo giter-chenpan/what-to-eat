@@ -12,6 +12,7 @@ generateApi({
     generateClient: true,
     generateResponses: true,
     generateRouteTypes: true,
+    unwrapResponseData: true,
     httpClientType: "axios",
 })
     .then(({ files }) => {

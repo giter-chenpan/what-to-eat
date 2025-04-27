@@ -24,7 +24,7 @@ export default function Mine() {
   return (
     <div className="flex flex-col items-center  h-full pt-20 px-5">
       <SmileOutline style={{ fontSize: "100px" }} />
-      <div>{info?.data.name}</div>
+      <div>{info?.name}</div>
       <List className="w-full mt-7">
         <List.Item onClick={() => router.push("/dishes")}>我的菜谱</List.Item>
         <List.Item onClick={() => {}}>单词本</List.Item>
