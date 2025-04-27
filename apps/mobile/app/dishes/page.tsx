@@ -11,7 +11,7 @@ export default function Dash() {
 
   const { data } = useQuery({
     queryKey: ["dishesList"],
-    queryFn: () => Request.api.apiDishesFindPage({ page: 1, page_size: 10 }),
+    queryFn: () => Request.api.apiDishesFindPage(),
   });
   console.log(data);
 
