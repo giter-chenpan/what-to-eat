@@ -23,11 +23,11 @@ export default function Translation() {
 
   const { mutate: hanldeTranslation } = useMutation({
     mutationFn: async (text: string) => {
-      const res = await Request.api.apiTranslationGetWords({
+      const { data } = await Request.api.apiTranslationGetWords({
         destination: direction,
         words: text,
       });
-      setTexts(res?.data?.map((item) => item.word) || []);
+      setTexts(data?.map((item) => item.word) || []);
     },
   });
 
