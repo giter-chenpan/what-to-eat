@@ -49,58 +49,63 @@ export default function Translation() {
 
   const { run: handleChange } = useDebounceFn(
     (val: string) => {
+      if (val === "") {
+        setTexts([]);
+        return;
+      }
       hanldeTranslation(val);
     },
-    { wait: 1000 }
+    { wait: 700 }
   );
 
   return (
     <div className="pt-5 pb-10 px-2.5 h-full">
-      <div className="flex gap-3">
-        <Selector
-          options={options}
-          value={[direction]}
-          onChange={(v) => setDirection(v[0] as "en" | "zh")}
-        />
-      </div>
-      <div className="my-5 relative">
-        <div className="w-full gap-2 flex items-center">
-          <SearchBar
-            className="flex-1"
-            style={{ "--height": "40px" }}
-            placeholder="请输入要翻译的文字"
-            onChange={(e) => {
-              setSelectedText(e);
-              handleChange(e);
-            }}
-            ref={searchRef}
-            value={selectedText}
+      <div className="sticky top-0 bg-white z-20">
+        <div className="flex gap-3">
+          <Selector
+            options={options}
+            value={[direction]}
+            onChange={(v) => setDirection(v[0] as "en" | "zh")}
           />
         </div>
-        {!!texts?.length && (
-          <List className="absolute top-11 left-0 w-full px-2 overflow-y-auto max-h-96 border-1 border-gray-200 rounded-lg">
-            {texts.map((text) => (
-              <List.Item
-                key={text}
-                onClick={() => {
-                  setSelectedText(text);
-                  setTexts([]);
-                  hanldeTranslationResult(text);
-                }}
-              >
-                {text}
-              </List.Item>
-            ))}
-          </List>
-        )}
+        <div className="my-5 relative">
+          <div className="w-full gap-2 flex items-center">
+            <SearchBar
+              className="flex-1"
+              style={{ "--height": "40px" }}
+              placeholder="请输入要翻译的文字"
+              onChange={(e) => {
+                setSelectedText(e);
+                handleChange(e);
+              }}
+              ref={searchRef}
+              value={selectedText}
+            />
+          </div>
+          {!!texts?.length && (
+            <List className="absolute top-11 left-0 w-full px-2 overflow-y-auto max-h-96 border-1 border-gray-200 rounded-lg z-10">
+              {texts.map((text) => (
+                <List.Item
+                  key={text}
+                  onClick={() => {
+                    setSelectedText(text);
+                    setTexts([]);
+                    hanldeTranslationResult(text);
+                  }}
+                >
+                  {text}
+                </List.Item>
+              ))}
+            </List>
+          )}
+        </div>
       </div>
-
       {(translationResult?.length || 0) > 0 && (
         <Tabs defaultActiveKey="0">
           {translationResult?.map(
             ({ title, word_type_enum, pronunciation, translation }, i) => (
               <Tabs.Tab
-                title={`${title} - ${word_type_enum?.description}`}
+                title={`${title} - ${word_type_enum?.description || ""}`}
                 key={i}
               >
                 <Card>
@@ -118,8 +123,8 @@ export default function Translation() {
                   <Divider />
                   {translation?.map((v, i) => (
                     <div key={i}>
-                      <div className="text-lg font-bold ">{v.word}</div>
-                      <Divider />
+                      <div className="text-lg font-bold my-5">{v.word}</div>
+                      {/* <Divider /> */}
                       <List>
                         {v?.examples?.map((x, i) => (
                           <List.Item key={i} description={x.value}>

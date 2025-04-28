@@ -17,7 +17,7 @@ export default function Dash() {
   return (
     <div className=" h-full p-3">
       <Collapse accordion>
-        {data?.list?.map((v: any) => (
+        {data?.data?.list?.map((v: any) => (
           <Collapse.Panel key={v.id} title={v.name}>
             <Image src={`/api/file/getimage?id=${v.view_id}`} alt="" lazy />
             <div>{v.desc}</div>
