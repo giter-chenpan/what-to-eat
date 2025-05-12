@@ -49,6 +49,7 @@ export interface ItemExample {
   value?: string | null;
 }
 
+/** word type mapping */
 export interface WordType {
   name: string;
   description: string;
@@ -76,6 +77,48 @@ export interface WordsRepItem {
   beta: boolean;
   url: string;
   word: string;
+}
+
+export interface RepForFindPageRep {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: FindPageRep | null;
+}
+
+export interface FindPageRep {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page: number;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  total: number;
+  list: FindPageRepItem[];
+}
+
+export interface FindPageRepItem {
+  id: string;
+  word: string;
+  translations: Item[];
+  create_user: string;
+}
+
+/** page structure */
+export interface FindPage {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page: number;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  pageSize: number;
 }
 
 export namespace Anon {
@@ -286,7 +329,7 @@ export namespace Api {
    * No description
    * @tags translation
    * @name ApiTranslationGetWords
-   * @request POST:/api/translation/get_words
+   * @request POST:/api/translation/getWords
    * @secure
    * @response `200` `RepForNullableArrayOfWordsRepItem`
    */
@@ -296,6 +339,22 @@ export namespace Api {
     export type RequestBody = Translation;
     export type RequestHeaders = {};
     export type ResponseBody = RepForNullableArrayOfWordsRepItem;
+  }
+
+  /**
+   * No description
+   * @tags translation
+   * @name ApiTranslationFindPage
+   * @request POST:/api/translation/findPage
+   * @secure
+   * @response `200` `RepForFindPageRep`
+   */
+  export namespace ApiTranslationFindPage {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = FindPage;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForFindPageRep;
   }
 }
 
@@ -708,13 +767,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags translation
      * @name ApiTranslationGetWords
-     * @request POST:/api/translation/get_words
+     * @request POST:/api/translation/getWords
      * @secure
      * @response `200` `RepForNullableArrayOfWordsRepItem`
      */
     apiTranslationGetWords: (data: Translation, params: RequestParams = {}) =>
       this.request<RepForNullableArrayOfWordsRepItem, any>({
-        path: `/api/translation/get_words`,
+        path: `/api/translation/getWords`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags translation
+     * @name ApiTranslationFindPage
+     * @request POST:/api/translation/findPage
+     * @secure
+     * @response `200` `RepForFindPageRep`
+     */
+    apiTranslationFindPage: (data: FindPage, params: RequestParams = {}) =>
+      this.request<RepForFindPageRep, any>({
+        path: `/api/translation/findPage`,
         method: "POST",
         body: data,
         secure: true,
