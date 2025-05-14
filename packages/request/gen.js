@@ -14,6 +14,7 @@ generateApi({
     generateRouteTypes: true,
     unwrapResponseData: true,
     httpClientType: "axios",
+    generateUnionEnums: true,
 })
     .then(({ files }) => {
         files.forEach(({ content }) => {
