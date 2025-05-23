@@ -107,8 +107,7 @@ export interface FindPageRepItem {
   create_user: string;
 }
 
-/** page structure */
-export interface FindPage {
+export interface FindPageParams {
   /**
    * @format uint64
    * @min 0
@@ -119,6 +118,7 @@ export interface FindPage {
    * @min 0
    */
   pageSize: number;
+  translationType: string;
 }
 
 export namespace Anon {
@@ -352,7 +352,7 @@ export namespace Api {
   export namespace ApiTranslationFindPage {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = FindPage;
+    export type RequestBody = FindPageParams;
     export type RequestHeaders = {};
     export type ResponseBody = RepForFindPageRep;
   }
@@ -791,7 +791,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      * @response `200` `RepForFindPageRep`
      */
-    apiTranslationFindPage: (data: FindPage, params: RequestParams = {}) =>
+    apiTranslationFindPage: (data: FindPageParams, params: RequestParams = {}) =>
       this.request<RepForFindPageRep, any>({
         path: `/api/translation/findPage`,
         method: "POST",

@@ -12,6 +12,7 @@ import {
 } from "antd-mobile";
 import { useDebounceFn } from "ahooks";
 import { useMutation } from "@tanstack/react-query";
+import TransItem from "@/components/transItem";
 import Request from "@/common/request";
 
 import { SearchBarRef } from "antd-mobile/es/components/search-bar";
@@ -113,44 +114,7 @@ export default function Translation() {
         </div>
       </div>
       {(translationResult?.length || 0) > 0 && (
-        <Tabs defaultActiveKey="0">
-          {translationResult?.map(
-            ({ title, word_type_enum, pronunciation, translation }, i) => (
-              <Tabs.Tab
-                title={`${title} - ${word_type_enum?.description || ""}`}
-                key={i}
-              >
-                <Card>
-                  <div>
-                    {pronunciation.map((v, i) => (
-                      <Space key={i} block align="center">
-                        <span>{v.lang}</span>
-                        <span>{v.pron}</span>
-                        <span>
-                          <audio src={v.source} controls />
-                        </span>
-                      </Space>
-                    ))}
-                  </div>
-                  <Divider />
-                  {translation?.map((v, i) => (
-                    <div key={i}>
-                      <div className="text-lg font-bold my-5">{v.word}</div>
-                      {/* <Divider /> */}
-                      <List>
-                        {v?.examples?.map((x, i) => (
-                          <List.Item key={i} description={x.value}>
-                            {x.label}
-                          </List.Item>
-                        ))}
-                      </List>
-                    </div>
-                  ))}
-                </Card>
-              </Tabs.Tab>
-            )
-          )}
-        </Tabs>
+        <TransItem translationResult={translationResult || []} />
       )}
     </div>
   );
