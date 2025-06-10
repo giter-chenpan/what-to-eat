@@ -29,11 +29,17 @@ export default function TransItem({ translationResult }: Props) {
               <Divider />
               {translation?.map((v, i) => (
                 <div key={i}>
-                  <div className="text-lg font-bold my-5">{v.word}</div>
+                  <div className="text-lg font-bold my-5 text-gray-700">
+                    {v.word}
+                  </div>
                   {/* <Divider /> */}
                   <List>
                     {v?.examples?.map((x, i) => (
-                      <List.Item key={i} description={x.value}>
+                      <List.Item
+                        key={i}
+                        description={x.value}
+                        className="text-gray-700"
+                      >
                         {x.label}
                       </List.Item>
                     ))}
