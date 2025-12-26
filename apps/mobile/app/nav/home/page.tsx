@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, Modal, Image } from "antd-mobile";
+import { Button, Modal, Image, CapsuleTabs, Toast } from "antd-mobile";
+import { useMemo } from "react";
 import request from "@/common/request";
 export default function Home() {
   const handleRandom = async () => {
@@ -21,19 +22,52 @@ export default function Home() {
       closeOnMaskClick: true,
     });
   };
+
+  const handleCount = async () => {
+    await request.api.apiTimesSetTimes();
+    Toast.show({
+      content: "功德+1",
+      icon: "success",
+    });
+  };
+
+  const list = useMemo(() => {
+    return [
+      {
+        title: "计数",
+        key: "count",
+        onClick: handleCount,
+        text: "功德+1",
+      },
+      {
+        title: "选餐",
+        key: "category",
+        text: "选一个",
+        onClick: handleRandom,
+      },
+    ];
+  }, []);
+
   return (
-    <main className="p-4 h-full flex justify-center items-center flex-col">
-      <Button
-        color="primary"
-        onClick={handleRandom}
-        style={{
-          "--border-radius": "999px",
-          padding: "45px 25px",
-          fontSize: "26px",
-        }}
-      >
-        选一个
-      </Button>
+    <main className="p-4 h-full flex justify-start items-center flex-col">
+      <CapsuleTabs>
+        {list.map((item) => (
+          <CapsuleTabs.Tab title={item.title} key={item.key}>
+            <Button
+              color="primary"
+              onClick={item.onClick}
+              className="mt-28"
+              style={{
+                "--border-radius": "999px",
+                padding: "45px 25px",
+                fontSize: "26px",
+              }}
+            >
+              {item.text}
+            </Button>
+          </CapsuleTabs.Tab>
+        ))}
+      </CapsuleTabs>
     </main>
   );
 }

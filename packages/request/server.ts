@@ -14,6 +14,13 @@ export interface Params {
   pwd: string;
 }
 
+export interface RepForNull {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: null;
+}
+
 export type FileUpload = object;
 
 export interface ImportDishes {
@@ -121,6 +128,51 @@ export interface FindPageParams {
   translationType: string;
 }
 
+export interface RepForNullableString {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: string | null;
+}
+
+export interface RepForFindPageRep2 {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: FindPageRep2 | null;
+}
+
+export interface FindPageRep2 {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page: number;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  total: number;
+  list: FindPageRepItem2[];
+}
+
+export interface FindPageRepItem2 {
+  allTime: string;
+}
+
+export interface Params2 {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page: number;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  pageSize: number;
+}
+
 export namespace Anon {
   /**
    * No description
@@ -157,9 +209,23 @@ export namespace Api {
   /**
    * No description
    * @tags auth
+   * @name AuthLogout
+   * @request POST:/api/logout
+   * @response `200` `RepForNull`
+   */
+  export namespace AuthLogout {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForNull;
+  }
+
+  /**
+   * No description
+   * @tags auth
    * @name AuthGetUserInfo
    * @request GET:/api/getuserinfo
-   * @secure
    * @response `200` `any`
    */
   export namespace AuthGetUserInfo {
@@ -314,7 +380,6 @@ export namespace Api {
    * @tags translation
    * @name ApiTranslationHandleTranslation
    * @request POST:/api/translation/words
-   * @secure
    * @response `200` `RepForNullableArrayOfItem`
    */
   export namespace ApiTranslationHandleTranslation {
@@ -330,7 +395,6 @@ export namespace Api {
    * @tags translation
    * @name ApiTranslationGetWords
    * @request POST:/api/translation/getWords
-   * @secure
    * @response `200` `RepForNullableArrayOfWordsRepItem`
    */
   export namespace ApiTranslationGetWords {
@@ -346,7 +410,6 @@ export namespace Api {
    * @tags translation
    * @name ApiTranslationFindPage
    * @request POST:/api/translation/findPage
-   * @secure
    * @response `200` `RepForFindPageRep`
    */
   export namespace ApiTranslationFindPage {
@@ -355,6 +418,37 @@ export namespace Api {
     export type RequestBody = FindPageParams;
     export type RequestHeaders = {};
     export type ResponseBody = RepForFindPageRep;
+  }
+
+  /**
+   * No description
+   * @tags times
+   * @name ApiTimesSetTimes
+   * @request GET:/api/times
+   * @secure
+   * @response `200` `RepForNullableString`
+   */
+  export namespace ApiTimesSetTimes {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForNullableString;
+  }
+
+  /**
+   * No description
+   * @tags times
+   * @name ApiTimesGetTimesPage
+   * @request POST:/api/get_times_page
+   * @response `200` `RepForFindPageRep2`
+   */
+  export namespace ApiTimesGetTimesPage {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = Params2;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForFindPageRep2;
   }
 }
 
@@ -556,16 +650,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags auth
+     * @name AuthLogout
+     * @request POST:/api/logout
+     * @response `200` `RepForNull`
+     */
+    authLogout: (params: RequestParams = {}) =>
+      this.request<RepForNull, any>({
+        path: `/api/logout`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
      * @name AuthGetUserInfo
      * @request GET:/api/getuserinfo
-     * @secure
      * @response `200` `any`
      */
     authGetUserInfo: (params: RequestParams = {}) =>
       this.request<any, any>({
         path: `/api/getuserinfo`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -748,7 +856,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags translation
      * @name ApiTranslationHandleTranslation
      * @request POST:/api/translation/words
-     * @secure
      * @response `200` `RepForNullableArrayOfItem`
      */
     apiTranslationHandleTranslation: (data: Translation, params: RequestParams = {}) =>
@@ -756,7 +863,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/translation/words`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -768,7 +874,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags translation
      * @name ApiTranslationGetWords
      * @request POST:/api/translation/getWords
-     * @secure
      * @response `200` `RepForNullableArrayOfWordsRepItem`
      */
     apiTranslationGetWords: (data: Translation, params: RequestParams = {}) =>
@@ -776,7 +881,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/translation/getWords`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -788,7 +892,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags translation
      * @name ApiTranslationFindPage
      * @request POST:/api/translation/findPage
-     * @secure
      * @response `200` `RepForFindPageRep`
      */
     apiTranslationFindPage: (data: FindPageParams, params: RequestParams = {}) =>
@@ -796,7 +899,42 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/translation/findPage`,
         method: "POST",
         body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags times
+     * @name ApiTimesSetTimes
+     * @request GET:/api/times
+     * @secure
+     * @response `200` `RepForNullableString`
+     */
+    apiTimesSetTimes: (params: RequestParams = {}) =>
+      this.request<RepForNullableString, any>({
+        path: `/api/times`,
+        method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags times
+     * @name ApiTimesGetTimesPage
+     * @request POST:/api/get_times_page
+     * @response `200` `RepForFindPageRep2`
+     */
+    apiTimesGetTimesPage: (data: Params2, params: RequestParams = {}) =>
+      this.request<RepForFindPageRep2, any>({
+        path: `/api/get_times_page`,
+        method: "POST",
+        body: data,
         type: ContentType.Json,
         format: "json",
         ...params,

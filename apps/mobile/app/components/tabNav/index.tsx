@@ -33,7 +33,7 @@ export default function TabNav() {
     <TabBar
       onChange={handleChange}
       safeArea
-      className=" border-t-1 fixed bottom-0 bg-white w-full"
+      className=" border-t-1 fixed bottom-0 bg-white w-full p-2"
       defaultActiveKey={pathname}
     >
       {tabs.map((item) => (

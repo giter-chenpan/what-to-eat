@@ -9,10 +9,10 @@
 }
 :root:root {
   --adm-color-primary: #e90;
-  .adm-form{
-    --border-top: unset
+  .adm-form {
+    --border-top: unset;
   }
-  .adm-list-item{
+  .adm-list-item {
     padding-left: 0;
   }
 }
@@ -25,17 +25,16 @@
   }
 }
 
-html{
+html {
   height: 100%;
   width: 100%;
 }
-
 
 body {
   color: rgb(var(--foreground-rgb));
   height: 100%;
 }
-svg{
+svg {
   display: inline-block;
 }
 

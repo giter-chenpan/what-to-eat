@@ -2,7 +2,7 @@
 
 import { SmileOutline } from "antd-mobile-icons";
 import { List, Button, Dialog } from "antd-mobile";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Request from "@/common/request";
 
@@ -11,13 +11,23 @@ export default function Mine() {
     queryKey: ["authGetUserInfo"],
     queryFn: Request.api.authGetUserInfo,
   });
+
+  const { mutate: logout } = useMutation({
+    mutationKey: ["authLoginout"],
+    mutationFn: Request.api.authLogout,
+    onSuccess: () => {
+      localStorage.removeItem("token");
+      router.push("/login");
+    },
+  });
+
   const router = useRouter();
+
   const handleLogout = () => {
     Dialog.confirm({
       content: "确定要退出登录吗？",
       onConfirm: () => {
-        localStorage.removeItem("token");
-        router.push("/login");
+        logout({});
       },
     });
   };
@@ -28,6 +38,7 @@ export default function Mine() {
       <List className="w-full mt-7">
         <List.Item onClick={() => router.push("/dishes")}>我的菜谱</List.Item>
         <List.Item onClick={() => router.push("/words")}>单词本</List.Item>
+        <List.Item onClick={() => router.push("/times")}>功德本</List.Item>
       </List>
       <div className="w-full mt-16">
         <Button
