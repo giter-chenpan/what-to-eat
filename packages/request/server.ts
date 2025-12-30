@@ -158,6 +158,8 @@ export interface FindPageRep2 {
 
 export interface FindPageRepItem2 {
   allTime: string;
+  /** @format int32 */
+  id: number;
 }
 
 export interface Params2 {
@@ -171,6 +173,19 @@ export interface Params2 {
    * @min 0
    */
   pageSize: number;
+  day: string;
+}
+
+export interface RepForNullableNull {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: null;
+}
+
+export interface DeleteTimesParams {
+  /** @format int32 */
+  id: number;
 }
 
 export namespace Anon {
@@ -449,6 +464,21 @@ export namespace Api {
     export type RequestBody = Params2;
     export type RequestHeaders = {};
     export type ResponseBody = RepForFindPageRep2;
+  }
+
+  /**
+   * No description
+   * @tags times
+   * @name ApiTimesDeleteTimes
+   * @request POST:/api/delete_times
+   * @response `200` `RepForNullableNull`
+   */
+  export namespace ApiTimesDeleteTimes {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = DeleteTimesParams;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForNullableNull;
   }
 }
 
@@ -933,6 +963,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     apiTimesGetTimesPage: (data: Params2, params: RequestParams = {}) =>
       this.request<RepForFindPageRep2, any>({
         path: `/api/get_times_page`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags times
+     * @name ApiTimesDeleteTimes
+     * @request POST:/api/delete_times
+     * @response `200` `RepForNullableNull`
+     */
+    apiTimesDeleteTimes: (data: DeleteTimesParams, params: RequestParams = {}) =>
+      this.request<RepForNullableNull, any>({
+        path: `/api/delete_times`,
         method: "POST",
         body: data,
         type: ContentType.Json,
