@@ -1,16 +1,32 @@
 "use client";
 
 import dayjs from "dayjs";
-import { Button, Dialog, InfiniteScroll, List, SwipeAction } from "antd-mobile";
+import {
+  Button,
+  Card,
+  Dialog,
+  InfiniteScroll,
+  List,
+  SwipeAction,
+  FloatingBubble,
+} from "antd-mobile";
 import {
   keepPreviousData,
   useInfiniteQuery,
   useMutation,
 } from "@tanstack/react-query";
 import Request from "@/common/request";
+import { FindPageRepItem2 } from "@repo/request";
 import { useMemo, useState } from "react";
+import { MessageFill } from "antd-mobile-icons";
 
 const PIGE_SIZE = 10;
+
+const SEGMENT_INTERVAL = 5 * 60 * 1000; // 5分钟
+
+const colors = ["#2196f3", "#4caf50", "#ffc107", "#9c27b0", "#e91e63"];
+
+type ListItem = FindPageRepItem2 & Record<string, any>;
 export default function Words() {
   const [time, setTime] = useState(dayjs().format("YYYY-MM-DD"));
 
@@ -37,10 +53,34 @@ export default function Words() {
     await fetchNextPage();
   };
 
-  const arrs = useMemo(
-    () => data?.pages?.map((v) => v?.list)?.flat() ?? [],
-    [data],
-  );
+  const arrs = useMemo(() => {
+    const obj: Record<string, any> = {};
+    const list = (data?.pages?.map((v) => v?.list)?.flat() ?? []) as ListItem[];
+
+    list.forEach((item, i) => {
+      if (!item) return;
+      const hour = dayjs(item?.allTime).get("hour").toString();
+      const timestamp = dayjs(item?.allTime).valueOf();
+      if (!!obj[hour]) {
+        const len = obj[hour].length;
+        if (
+          len > 0 &&
+          timestamp - dayjs(obj[hour].at(-1)?.allTime).valueOf() >
+            SEGMENT_INTERVAL
+        ) {
+          obj[hour].push({ ...item, color: colors[i % colors.length] });
+        } else {
+          obj[hour].push({ ...item, color: obj[hour].at(-1)?.color });
+        }
+      } else {
+        obj[hour] = [{ ...item, color: colors[i % colors.length] }];
+      }
+    });
+
+    // Object.entries(obj);
+    console.log(Object.entries(obj));
+    return Object.entries(obj);
+  }, [data]);
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
@@ -78,25 +118,44 @@ export default function Words() {
           后一天
         </Button>
       </div>
-      <List>
+      <div className="flex flex-col gap-4">
         {arrs.map((v, i) => (
-          <SwipeAction
-            key={i}
-            rightActions={[
-              {
-                key: "delete",
-                text: "删除",
-                color: "danger",
-                onClick: () => deleteMutation.mutate(v?.id || 0),
-              },
-            ]}
-          >
-            <List.Item>{v?.allTime}</List.Item>
-          </SwipeAction>
+          <div key={i} className="shadow-md">
+            <Card title={v[0] + "时"}>
+              {v?.[1].map((x, i) => (
+                <div key={i} className="text-base">
+                  <div key={x.id} style={{ color: x.color }}>
+                    {dayjs(x.allTime).format("HH:mm:ss")}
+                  </div>
+                </div>
+              ))}
+            </Card>
+            {/*<SwipeAction
+              rightActions={[
+                {
+                  key: "delete",
+                  text: "删除",
+                  color: "danger",
+                  onClick: () => deleteMutation.mutate(v?.id || 0),
+                },
+              ]}
+            >
+              <List.Item>{v?.allTime}</List.Item>
+            </SwipeAction>*/}
+          </div>
         ))}
-      </List>
-
+      </div>
       <InfiniteScroll loadMore={() => loadMore()} hasMore={hasNextPage} />
+      <FloatingBubble
+        style={{
+          "--initial-position-bottom": "24px",
+          "--initial-position-right": "24px",
+          "--edge-distance": "24px",
+        }}
+        onClick={() => {}}
+      >
+        <MessageFill fontSize={32} />
+      </FloatingBubble>
     </div>
   );
 }
