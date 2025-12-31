@@ -122,10 +122,10 @@ export default function Words() {
         {arrs.map((v, i) => (
           <div key={i} className="shadow-md">
             <Card title={v[0] + "时"}>
-              {v?.[1].map((x, i) => (
+              {v?.[1].map((x: Record<string, any>, i: number) => (
                 <div key={i} className="text-base">
-                  <div key={x.id} style={{ color: x.color }}>
-                    {dayjs(x.allTime).format("HH:mm:ss")}
+                  <div key={x?.id} style={{ color: x?.color }}>
+                    {dayjs(x?.allTime).format("HH:mm:ss")}
                   </div>
                 </div>
               ))}
