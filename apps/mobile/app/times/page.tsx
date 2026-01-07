@@ -19,8 +19,9 @@ import Request from "@/common/request";
 import { FindPageRepItem2 } from "@repo/request";
 import { useMemo, useState } from "react";
 import { MessageFill } from "antd-mobile-icons";
+import { useRouter } from "next/navigation";
 
-const PIGE_SIZE = 10;
+const PIGE_SIZE = 20;
 
 const SEGMENT_INTERVAL = 5 * 60 * 1000; // 5分钟
 
@@ -29,7 +30,7 @@ const colors = ["#2196f3", "#4caf50", "#ffc107", "#9c27b0", "#e91e63"];
 type ListItem = FindPageRepItem2 & Record<string, any>;
 export default function Words() {
   const [time, setTime] = useState(dayjs().format("YYYY-MM-DD"));
-
+  const router = useRouter();
   const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
     queryKey: ["timeslist", time],
     placeholderData: keepPreviousData,
@@ -77,23 +78,8 @@ export default function Words() {
       }
     });
 
-    // Object.entries(obj);
-    console.log(Object.entries(obj));
     return Object.entries(obj);
   }, [data]);
-
-  const deleteMutation = useMutation({
-    mutationFn: async (id: number) => {
-      Dialog.confirm({
-        title: "确认删除",
-        content: "确认删除该条记录吗？",
-        onConfirm: async () => {
-          await Request.api.apiTimesDeleteTimes({ id });
-          refetch();
-        },
-      });
-    },
-  });
 
   return (
     <div className="p-2">
@@ -130,18 +116,6 @@ export default function Words() {
                 </div>
               ))}
             </Card>
-            {/*<SwipeAction
-              rightActions={[
-                {
-                  key: "delete",
-                  text: "删除",
-                  color: "danger",
-                  onClick: () => deleteMutation.mutate(v?.id || 0),
-                },
-              ]}
-            >
-              <List.Item>{v?.allTime}</List.Item>
-            </SwipeAction>*/}
           </div>
         ))}
       </div>
@@ -152,7 +126,7 @@ export default function Words() {
           "--initial-position-right": "24px",
           "--edge-distance": "24px",
         }}
-        onClick={() => {}}
+        onClick={() => router.push("/times/list?time=" + time)}
       >
         <MessageFill fontSize={32} />
       </FloatingBubble>
