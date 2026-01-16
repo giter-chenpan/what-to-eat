@@ -4,17 +4,25 @@
   "description": "",
   "scripts": {
     "dev": "turbo run dev",
+    "start:app": "turbo run start --filter=./apps/my-app",
     "start": "turbo run start",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "keywords": [],
   "author": "chenpan",
   "license": "ISC",
   "devDependencies": {
-    "turbo": "^2.5.3"
+    "turbo": "^2.7.3"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@8.15.9"
+  "packageManager": "pnpm@8.15.9",
+  "dependencies": {
+    "expo": "~54.0.31",
+    "react": "19.1.0",
+    "react-native": "0.81.5"
+  }
 }

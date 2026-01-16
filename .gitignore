@@ -29,6 +29,31 @@ out/
 build
 dist
 
+.vscode/
+.idea/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# generated native folders
+ios
+android
+
 
 # Debug
 npm-debug.log*
