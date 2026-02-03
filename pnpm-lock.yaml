@@ -1914,7 +1914,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       react: 19.1.0
-      react-native: 0.81.5(@babel/core@7.28.6)(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0)
     dev: false
 
   /@expo/env@2.0.8:
@@ -1991,7 +1991,7 @@ packages:
       debug: 4.4.3
       dotenv: 16.4.7
       dotenv-expand: 11.0.7
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
       getenv: 2.0.0
       glob: 13.0.0
       hermes-parser: 0.29.1
@@ -2089,7 +2089,7 @@ packages:
       '@expo/json-file': 10.0.8
       '@react-native/normalize-colors': 0.81.5
       debug: 4.4.3
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
       resolve-from: 5.0.0
       semver: 7.7.3
       xml2js: 0.6.0
@@ -4437,7 +4437,7 @@ packages:
       babel-plugin-syntax-hermes-parser: 0.29.1
       babel-plugin-transform-flow-enums: 0.0.2(@babel/core@7.28.6)
       debug: 4.3.6
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
       react-refresh: 0.14.2
       resolve-from: 5.0.0
     transitivePeerDependencies:
@@ -6073,10 +6073,10 @@ packages:
       react-native: '*'
     dependencies:
       '@expo/image-utils': 0.8.8
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
       expo-constants: 18.0.13(expo@54.0.31)(react-native@0.81.5)
       react: 19.1.0
-      react-native: 0.81.5(@babel/core@7.28.6)(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -6089,8 +6089,8 @@ packages:
     dependencies:
       '@expo/config': 12.0.13
       '@expo/env': 2.0.8
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
-      react-native: 0.81.5(@babel/core@7.28.6)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -6146,8 +6146,8 @@ packages:
       expo: '*'
       react-native: '*'
     dependencies:
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
-      react-native: 0.81.5(@babel/core@7.28.6)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0)
     dev: false
 
   /expo-font@14.0.10(expo@54.0.31)(react-native@0.81.5)(react@19.1.0):
@@ -6157,10 +6157,10 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
       fontfaceobserver: 2.3.0
       react: 19.1.0
-      react-native: 0.81.5(@babel/core@7.28.6)(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0)
     dev: false
 
   /expo-haptics@15.0.8(expo@54.0.31):
@@ -6198,7 +6198,7 @@ packages:
       expo: '*'
       react: '*'
     dependencies:
-      expo: 54.0.31(@babel/core@7.28.6)(react-native@0.81.5)(react@19.1.0)
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.16.0)(react-native@0.81.5)(react@19.1.0)
       react: 19.1.0
     dev: false
 
@@ -6248,7 +6248,7 @@ packages:
     dependencies:
       invariant: 2.2.4
       react: 19.1.0
-      react-native: 0.81.5(@babel/core@7.28.6)(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0)
     dev: false
 
   /expo-router@6.0.21(@expo/metro-runtime@6.1.2)(@types/react@19.1.17)(expo-constants@18.0.13)(expo-linking@8.0.11)(expo@54.0.31)(react-dom@19.1.0)(react-native-gesture-handler@2.28.0)(react-native-reanimated@4.1.6)(react-native-safe-area-context@5.6.2)(react-native-screens@4.16.0)(react-native-web@0.21.2)(react-native@0.81.5)(react@19.1.0):

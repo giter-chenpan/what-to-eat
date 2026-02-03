@@ -1,6 +1,11 @@
 "use client";
 
-import { AppOutline, UserOutline, CalculatorOutline } from "antd-mobile-icons";
+import {
+  AppOutline,
+  UserOutline,
+  CalculatorOutline,
+  ContentOutline,
+} from "antd-mobile-icons";
 import { TabBar } from "antd-mobile";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -12,6 +17,11 @@ export default function TabNav() {
       key: "/nav/home",
       title: "首页",
       icon: <AppOutline />,
+    },
+    {
+      key: "/nav/times",
+      title: "功德本",
+      icon: <ContentOutline />,
     },
     {
       key: "/nav/translation",

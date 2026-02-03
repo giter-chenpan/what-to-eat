@@ -1,12 +1,14 @@
 "use client";
 import { Fragment } from "react";
-import { Collapse, InfiniteScroll } from "antd-mobile";
+import { Collapse, InfiniteScroll, Button } from "antd-mobile";
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import Request from "@/common/request";
 import TransItem from "@/components/transItem";
+import { useRouter } from "next/navigation";
 
 const PIGE_SIZE = 5;
 export default function Words() {
+  const router = useRouter();
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["wordslist"],
     placeholderData: keepPreviousData,
@@ -31,7 +33,7 @@ export default function Words() {
   };
 
   return (
-    <div className="py-2">
+    <div className="py-2 relative h-full">
       <Collapse accordion>
         {data?.pages.map((group, i) => (
           <Fragment key={i}>
@@ -47,6 +49,11 @@ export default function Words() {
         ))}
       </Collapse>
       <InfiniteScroll loadMore={() => loadMore()} hasMore={hasNextPage} />
+      <div className="w-full fixed bottom-0 left-0 p-2 bg-white">
+        <Button color="primary" block onClick={() => router.back()}>
+          返回
+        </Button>
+      </div>
     </div>
   );
 }
