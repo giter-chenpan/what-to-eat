@@ -8,12 +8,13 @@ const colors = ["#2196f3", "#4caf50", "#ffc107", "#9c27b0", "#e91e63"];
 
 type ListItem = FindPageRepItem2 & Record<string, any>;
 
-export default function Show({ data }) {
+export default function Show({ data }: { data: any }) {
   const [arrs, setArrs] = useState<any>([]);
 
   useEffect(() => {
     const obj: Record<string, any> = {};
-    const list = (data?.pages?.map((v) => v?.list)?.flat() ?? []) as ListItem[];
+    const list = (data?.pages?.map((v: any) => v?.list)?.flat() ??
+      []) as ListItem[];
 
     list.forEach((item, i) => {
       if (!item) return;
@@ -40,7 +41,7 @@ export default function Show({ data }) {
 
   return (
     <div>
-      {arrs.map((v, i) => (
+      {arrs.map((v: any, i: number) => (
         <div key={i} className="shadow-md">
           <Card title={v[0] + "时"}>
             {v?.[1].map((x: Record<string, any>, i: number) => (
