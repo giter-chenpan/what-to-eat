@@ -38,7 +38,6 @@ export default function Mine() {
       <List className="w-full mt-7">
         <List.Item onClick={() => router.push("/dishes")}>我的菜谱</List.Item>
         <List.Item onClick={() => router.push("/words")}>单词本</List.Item>
-        <List.Item onClick={() => router.push("/times")}>功德本</List.Item>
       </List>
       <div className="w-full mt-16">
         <Button

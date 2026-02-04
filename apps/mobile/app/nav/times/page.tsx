@@ -71,7 +71,7 @@ export default function Words() {
           "--initial-position-right": "24px",
           "--edge-distance": "24px",
         }}
-        onClick={() => router.push("/times/list?time=" + time)}
+        onClick={() => router.push("/nav/times/list?time=" + time)}
       >
         <MessageFill fontSize={32} />
       </FloatingBubble>
