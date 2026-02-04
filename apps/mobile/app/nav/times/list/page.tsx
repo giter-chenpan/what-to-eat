@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Dialog, InfiniteScroll, List, SwipeAction } from "antd-mobile";
 
@@ -13,7 +13,7 @@ import {
 import Request from "@/common/request";
 
 const PIGE_SIZE = 20;
-export default function TimesListPage() {
+const TimesListPage = () => {
   const searchParams = useSearchParams();
   const time = searchParams.get("time") || "";
 
@@ -74,5 +74,15 @@ export default function TimesListPage() {
       </List>
       <InfiniteScroll loadMore={() => loadMore()} hasMore={hasNextPage} />
     </div>
+  );
+};
+
+//compatible with nextjs useSearchParams
+// https://nextjs.org/docs/app/api-reference/functions/use-search-params#behavior
+export default function TimesListPages() {
+  return (
+    <Suspense>
+      <TimesListPage />
+    </Suspense>
   );
 }
