@@ -1,9 +1,34 @@
 "use client";
 
 import { Button, Modal, Image, CapsuleTabs, Toast } from "antd-mobile";
-import { useMemo } from "react";
 import request from "@/common/request";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import TimesShow from "@/components/timesShow";
+import dayjs from "dayjs";
+
+const PAGE_SIZE = 2000;
 export default function Home() {
+  const queryClient = useQueryClient();
+  const time = dayjs().format("YYYY-MM-DD");
+
+  const { data } = useInfiniteQuery({
+    queryKey: ["timeslist", time],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
+      const res = await request.api.apiTimesGetTimesPage({
+        page: pageParam,
+        pageSize: PAGE_SIZE,
+        day: time,
+      });
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => {
+      if ((lastPage?.list.length ?? 0) < PAGE_SIZE) return null;
+      if (lastPage?.total === lastPage?.list.length) return null;
+      return (lastPage?.page ?? 0) + 1;
+    }
+  });
+
   const handleRandom = async () => {
     const { data } = await request.api.apiDishesGetRandomDishes();
     Modal.show({
@@ -29,45 +54,53 @@ export default function Home() {
       content: "功德+1",
       icon: "success",
     });
+    queryClient.invalidateQueries({ queryKey: ["timeslist", time] });
   };
 
-  const list = useMemo(() => {
-    return [
-      {
-        title: "计数",
-        key: "count",
-        onClick: handleCount,
-        text: "功德+1",
-      },
-      {
-        title: "选餐",
-        key: "category",
-        text: "选一个",
-        onClick: handleRandom,
-      },
-    ];
-  }, []);
+  const list = [
+    {
+      title: "计数",
+      key: "count",
+      onClick: handleCount,
+      text: "功德+1",
+    },
+    {
+      title: "选餐",
+      key: "category",
+      text: "选一个",
+      onClick: handleRandom,
+    },
+  ];
 
   return (
-    <main className="p-4 h-full flex justify-start items-center flex-col">
-      <CapsuleTabs>
+    <main className="h-screen flex flex-col overflow-hidden bg-white">
+      <div className="flex-1 overflow-hidden">
+        <CapsuleTabs>
         {list.map((item) => (
           <CapsuleTabs.Tab title={item.title} key={item.key}>
-            <Button
-              color="primary"
-              onClick={item.onClick}
-              className="mt-28"
-              style={{
-                "--border-radius": "999px",
-                padding: "45px 25px",
-                fontSize: "26px",
-              }}
-            >
-              {item.text}
-            </Button>
+            <div className="h-full flex flex-col items-center p-4">
+              <Button
+                color="primary"
+                onClick={item.onClick}
+                className="mt-10 flex-shrink-0"
+                style={{
+                  "--border-radius": "999px",
+                  padding: "45px 25px",
+                  fontSize: "26px",
+                }}
+              >
+                {item.text}
+              </Button>
+              {item.key === "count" && (
+                <div className="w-full mt-4 flex-1 overflow-y-auto min-h-0">
+                  <TimesShow data={data} />
+                </div>
+              )}
+            </div>
           </CapsuleTabs.Tab>
         ))}
-      </CapsuleTabs>
+        </CapsuleTabs>
+      </div>
     </main>
   );
 }

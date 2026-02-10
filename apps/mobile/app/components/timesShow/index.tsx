@@ -40,13 +40,13 @@ export default function Show({ data }: { data: any }) {
   }, [data]);
 
   return (
-    <div>
+    <div className="pb-20">
       {arrs.map((v: any, i: number) => (
-        <div key={i} className="shadow-md">
+        <div key={v[0]} className="shadow-md mb-2">
           <Card title={v[0] + "时"}>
-            {v?.[1].map((x: Record<string, any>, i: number) => (
-              <div key={i} className="text-base">
-                <div key={x?.id} style={{ color: x?.color }}>
+            {v?.[1].map((x: Record<string, any>, j: number) => (
+              <div key={x.id || j} className="text-base">
+                <div style={{ color: x?.color }}>
                   {dayjs(x?.allTime).format("HH:mm:ss")}
                 </div>
               </div>

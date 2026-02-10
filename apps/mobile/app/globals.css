@@ -38,6 +38,23 @@ svg {
   display: inline-block;
 }
 
+/* Force CapsuleTabs content to take full height for scrolling implementation */
+.adm-capsule-tabs {
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.adm-capsule-tabs-content {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+.adm-capsule-tabs-pane-wrap {
+  height: 100%;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
