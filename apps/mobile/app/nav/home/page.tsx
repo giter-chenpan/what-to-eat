@@ -1,33 +1,25 @@
 "use client";
 
-import { Button, Modal, Image, CapsuleTabs, Toast } from "antd-mobile";
+import { Button, Modal, Image, CapsuleTabs } from "antd-mobile";
 import request from "@/common/request";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import TimesShow from "@/components/timesShow";
-import dayjs from "dayjs";
+import { useState } from "react";
+import { RightOutline } from "antd-mobile-icons";
+import { useRouter } from "next/navigation";
 
-const PAGE_SIZE = 2000;
 export default function Home() {
-  const queryClient = useQueryClient();
-  const time = dayjs().format("YYYY-MM-DD");
+  const router = useRouter();
 
-  const { data } = useInfiniteQuery({
-    queryKey: ["timeslist", time],
-    initialPageParam: 1,
-    queryFn: async ({ pageParam }) => {
-      const res = await request.api.apiTimesGetTimesPage({
-        page: pageParam,
-        pageSize: PAGE_SIZE,
-        day: time,
-      });
-      return res.data;
-    },
-    getNextPageParam: (lastPage) => {
-      if ((lastPage?.list.length ?? 0) < PAGE_SIZE) return null;
-      if (lastPage?.total === lastPage?.list.length) return null;
-      return (lastPage?.page ?? 0) + 1;
-    }
-  });
+  // 在 Home 组件内
+const [toasts, setToasts] = useState<{id: number, text: string}[]>([]);
+
+const addToast = (text: string) => {
+  const id = Date.now();
+  setToasts(prev => [...prev, { id, text }]);
+  setTimeout(() => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  }, 2000); // 2秒后自动移除
+};
+
 
   const handleRandom = async () => {
     const { data } = await request.api.apiDishesGetRandomDishes();
@@ -50,11 +42,7 @@ export default function Home() {
 
   const handleCount = async () => {
     await request.api.apiTimesSetTimes();
-    Toast.show({
-      content: "功德+1",
-      icon: "success",
-    });
-    queryClient.invalidateQueries({ queryKey: ["timeslist", time] });
+    addToast( "计数+1");
   };
 
   const list = [
@@ -62,7 +50,7 @@ export default function Home() {
       title: "计数",
       key: "count",
       onClick: handleCount,
-      text: "功德+1",
+      text: "计数+1",
     },
     {
       title: "选餐",
@@ -75,30 +63,41 @@ export default function Home() {
   return (
     <main className="h-screen flex flex-col overflow-hidden bg-white">
       <div className="flex-1 overflow-hidden">
-        <CapsuleTabs>
-        {list.map((item) => (
-          <CapsuleTabs.Tab title={item.title} key={item.key}>
-            <div className="h-full flex flex-col items-center p-4">
-              <Button
-                color="primary"
-                onClick={item.onClick}
-                className="mt-10 flex-shrink-0"
-                style={{
-                  "--border-radius": "999px",
-                  padding: "45px 25px",
-                  fontSize: "26px",
-                }}
-              >
-                {item.text}
-              </Button>
-              {item.key === "count" && (
-                <div className="w-full mt-4 flex-1 overflow-y-auto min-h-0">
-                  <TimesShow data={data} />
-                </div>
-              )}
-            </div>
-          </CapsuleTabs.Tab>
+      <div className="fixed bottom-60 left-0 right-0 flex flex-col items-center pointer-events-none z-[1000]">
+        {toasts.map(t => (
+          <div key={t.id} className="bg-black/75 text-white px-4 py-2 rounded-full mb-2 animate-bounce">
+            {t.text}
+          </div>
         ))}
+      </div>
+        <CapsuleTabs>
+          {list.map((item) => (
+            <CapsuleTabs.Tab title={item.title} key={item.key}>
+              <div className="h-full flex flex-col items-center p-4">
+                <Button
+                  color="primary"
+                  onClick={item.onClick}
+                  className="mt-10 flex-shrink-0"
+                  style={{
+                    "--border-radius": "999px",
+                    padding: "45px 25px",
+                    fontSize: "26px",
+                  }}
+                >
+                  {item.text}
+                </Button>
+                {
+                  item?.key === "count" && (
+                    <div className="mt-20">
+                      <Button color="primary"  fill="none" onClick={() => router.push('/times')}>
+                        查看记录<RightOutline />
+                      </Button>
+                    </div>
+                  )
+                }
+              </div>
+            </CapsuleTabs.Tab>
+          ))}
         </CapsuleTabs>
       </div>
     </main>

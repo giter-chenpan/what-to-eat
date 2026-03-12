@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  AppOutline,
+  AppOutline, 
   UserOutline,
   CalculatorOutline,
-  ContentOutline,
+  MessageOutline,
 } from "antd-mobile-icons";
 import { TabBar } from "antd-mobile";
 import { useRouter, usePathname } from "next/navigation";
@@ -19,9 +19,9 @@ export default function TabNav() {
       icon: <AppOutline />,
     },
     {
-      key: "/nav/times",
-      title: "功德本",
-      icon: <ContentOutline />,
+      key: '/nav/chat',
+      title: '聊天',
+      icon: <MessageOutline />
     },
     {
       key: "/nav/translation",
