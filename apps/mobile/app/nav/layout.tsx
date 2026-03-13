@@ -12,8 +12,8 @@ export default function NavLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col h-full">
-      <div className=" flex-1">{children}</div>
+    <div className="flex flex-col h-full overflow-hidden w-full">
+      <div className=" flex-1 overflow-hidden">{children}</div>
       <TabNav />
     </div>
   );

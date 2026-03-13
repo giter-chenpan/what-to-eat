@@ -5,10 +5,9 @@ import type { BubbleListProps } from '@ant-design/x';
 import { Bubble, Sender } from '@ant-design/x';
 import XMarkdown from '@ant-design/x-markdown';
 import {
-  OpenAIChatProvider,
+  DefaultChatProvider,
+  MessageInfo,
   useXChat,
-  type XModelParams,
-  type XModelResponse,
   XRequest,
 } from '@ant-design/x-sdk';
 import { Button, Flex, Tooltip } from 'antd';
@@ -19,7 +18,8 @@ import React from 'react';
  * 🔔 Please replace the BASE_URL, PATH, MODEL, API_KEY with your own values.
  */
 
-const BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+// const BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+const BASE_URL = 'https://dashscope.aliyuncs.com/api/v1/apps/fd922815c2a14ffcb09f3e89e9e55495/completion';
 
 
 /**
@@ -27,7 +27,7 @@ const BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/complet
  * 🔔 The MODEL is fixed in the current request, please replace it with your BASE_URL and MODEL
  */
 
-const MODEL = 'qwen3.5-flash';
+// const MODEL = 'qwen3.5-flash';
 
 // 消息角色配置：定义助手和用户消息的布局和渲染方式
 // Message role configuration: define layout and rendering for assistant and user messages
@@ -48,23 +48,49 @@ const role: BubbleListProps['role'] = {
 
 const App = () => {
   const [content, setContent] = React.useState('');
-  // 创建OpenAI聊天提供者：配置请求参数和模型
-  // Create OpenAI chat provider: configure request parameters and model
-  const [provider] = React.useState(
-    new OpenAIChatProvider({
-      request: XRequest<XModelParams, XModelResponse>(BASE_URL, {
-        manual: true,
-        params: {
-          model: MODEL,
-          stream: true,
-        },
+  const [sessionId, setSessionId] = React.useState<string>();
 
- headers: {
-            'Authorization': 'Bearer sk-104958068f6e48b2bcf04c266b326d9e' 
+  // 创建数据提供者：使用 XRequest 并覆盖 transformMessage 以适配 DashScope App API
+  const [provider] = React.useState(() => {
+    const p = new DefaultChatProvider({
+      request: XRequest(BASE_URL, {
+        manual: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer sk-104958068f6e48b2bcf04c266b326d9e',
+        },
+        callbacks: {
+          onSuccess: (chunks: any[]) => {
+            const lastChunk = chunks?.[chunks.length - 1];
+            if (lastChunk?.output?.session_id) {
+              setSessionId(lastChunk.output.session_id);
+            }
+          },
+          onError: function (error: Error, errorInfo?: any, responseHeaders?: Headers, fallbackMsg?: MessageInfo<any> | undefined): void {
+            throw new Error('Function not implemented.');
           }
+        },
       }),
-    }),
-  );
+    });
+
+    // 适配 DashScope App API 的返回格式
+    p.transformMessage = (info: any) => {
+      return {
+        role: 'assistant',
+        content: info.chunk?.output?.text || info.chunks?.[info.chunks?.length - 1]?.output?.text || '',
+      };
+    };
+
+    // 适配用户消息的本地显示格式
+    p.transformLocalMessage = (params: any) => {
+      return {
+        role: 'user',
+        content: params.input?.prompt || '',
+      };
+    };
+
+    return p;
+  });
 
   // 聊天消息管理：处理消息列表、历史消息、错误处理等
   // Chat message management: handle message list, historical messages, error handling, etc.
@@ -100,8 +126,6 @@ const App = () => {
       };
     },
   });
-
-
 
 
   return (
@@ -157,16 +181,9 @@ const App = () => {
         
         onSubmit={(nextContent) => {
           onRequest({
-            messages: [
-              {
-                role: 'user',
-                content: nextContent,
-              },
-            ],
-            frequency_penalty: 0,
-            max_tokens: 1024,
-            thinking: {
-              type: 'disabled',
+            input: {
+              prompt: nextContent,
+              session_id: sessionId,
             },
           });
           setContent('');
