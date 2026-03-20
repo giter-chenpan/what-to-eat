@@ -4,10 +4,6 @@ import {
   SearchBar,
   Selector,
   List,
-  Tabs,
-  Card,
-  Divider,
-  Space,
   DotLoading,
 } from "antd-mobile";
 import { useDebounceFn } from "ahooks";
@@ -64,8 +60,8 @@ export default function Translation() {
   );
 
   return (
-    <div className="pt-5 pb-10 px-2.5 h-full">
-      <div className="sticky top-0 bg-white z-20">
+    <div className=" pb-10 px-2.5 h-full">
+      <div className="sticky top-0 bg-white z-20 pt-5">
         <div className="flex gap-3">
           <Selector
             options={options}
