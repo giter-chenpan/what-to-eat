@@ -55,7 +55,10 @@ function ChatPageInner() {
   const handleRetry = () => retry()
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div
+      className="flex flex-col h-full bg-white"
+      style={{ paddingBottom: 'calc(50px + env(safe-area-inset-bottom))' }}
+    >
       <ChatHeader />
       {isToolLoading && <ToolLoading />}
       {messages.length === 0 ? (
