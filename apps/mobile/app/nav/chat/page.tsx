@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ChatHeader } from './_components/ChatHeader'
 import { EmptyState } from './_components/EmptyState'
@@ -12,7 +12,7 @@ import { useChatStream } from './_hooks/useChatStream'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? ''
 
-export default function ChatPage() {
+function ChatPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const queryId = searchParams.get('session')
@@ -80,5 +80,13 @@ export default function ChatPage() {
         onStop={stop}
       />
     </div>
+  )
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={null}>
+      <ChatPageInner />
+    </Suspense>
   )
 }
