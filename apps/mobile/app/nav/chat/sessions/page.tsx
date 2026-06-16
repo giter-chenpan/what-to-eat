@@ -2,72 +2,19 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import type { ChatSessionDto } from '@repo/request'
+import request from '@/common/request'
 import { EmptyState } from '../_components/EmptyState'
 import { SessionListItem } from '../_components/SessionListItem'
 import type { ChatSession } from '../_lib/types'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? ''
-
-interface SessionListRep {
-  page: number
-  total: number
-  list: Array<{
-    id: string
-    title: string
-    created_at: string
-    updated_at: string
-  }>
-}
-
-function getToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem('token')
-}
-
-async function fetchSessions(): Promise<ChatSession[]> {
-  const res = await fetch(`${API_BASE}/api/chat/sessions/list`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(getToken() ? { Authorization: getToken()! } : {}),
-    },
-    body: JSON.stringify({ page: 1, page_size: 100 }),
-  })
-  const json = await res.json()
-  const rep = json.data as SessionListRep
-  return rep.list.map((s) => ({
+function toChatSession(s: ChatSessionDto): ChatSession {
+  return {
     id: s.id,
     title: s.title,
     createdAt: s.created_at,
     updatedAt: s.updated_at,
-  }))
-}
-
-async function createSessionApi(): Promise<ChatSession> {
-  const res = await fetch(`${API_BASE}/api/chat/sessions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(getToken() ? { Authorization: getToken()! } : {}),
-    },
-    body: JSON.stringify({}),
-  })
-  const json = await res.json()
-  return {
-    id: json.data.id,
-    title: json.data.title,
-    createdAt: json.data.created_at,
-    updatedAt: json.data.updated_at,
   }
-}
-
-async function deleteSessionApi(id: string): Promise<void> {
-  await fetch(`${API_BASE}/api/chat/sessions/${id}`, {
-    method: 'DELETE',
-    headers: {
-      ...(getToken() ? { Authorization: getToken()! } : {}),
-    },
-  })
 }
 
 export default function SessionsPage() {
@@ -80,11 +27,21 @@ export default function SessionsPage() {
 
   const { data: sessions = [] } = useQuery({
     queryKey: ['chat', 'sessions'],
-    queryFn: fetchSessions,
+    queryFn: async () => {
+      const { data } = await request.api.apiChatListSessions({
+        page: 1,
+        page_size: 100,
+      })
+      return data?.list.map(toChatSession) ?? []
+    },
   })
 
   const create = useMutation({
-    mutationFn: createSessionApi,
+    mutationFn: async () => {
+      const { data } = await request.api.apiChatCreateSession({})
+      if (!data) throw new Error('create session failed')
+      return toChatSession(data)
+    },
     onSuccess: (session) => {
       queryClient.invalidateQueries({ queryKey: ['chat', 'sessions'] })
       sessionStorage.setItem('chat:activeSessionId', session.id)
@@ -93,7 +50,7 @@ export default function SessionsPage() {
   })
 
   const remove = useMutation({
-    mutationFn: deleteSessionApi,
+    mutationFn: (id: string) => request.api.apiChatDeleteSession(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['chat', 'sessions'] })
     },

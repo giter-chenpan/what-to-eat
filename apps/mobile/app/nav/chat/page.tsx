@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import request from '@/common/request'
 import { ChatHeader } from './_components/ChatHeader'
 import { EmptyState } from './_components/EmptyState'
 import { MessageInput } from './_components/MessageInput'
@@ -9,8 +10,6 @@ import { MessageList } from './_components/MessageList'
 import { ToolLoading } from './_components/ToolLoading'
 import { useChatSession } from './_hooks/useChatSession'
 import { useChatStream } from './_hooks/useChatStream'
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? ''
 
 function ChatPageInner() {
   const router = useRouter()
@@ -35,19 +34,10 @@ function ChatPageInner() {
   }, [queryId])
 
   async function createSession() {
-    const token = localStorage.getItem('token')
-    const res = await fetch(`${API_BASE}/api/chat/sessions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: token } : {}),
-      },
-      body: JSON.stringify({}),
-    })
-    const json = await res.json()
-    if (json?.data?.id) {
-      sessionStorage.setItem('chat:activeSessionId', json.data.id)
-      router.replace(`/nav/chat?session=${json.data.id}`)
+    const { data } = await request.api.apiChatCreateSession({})
+    if (data?.id) {
+      sessionStorage.setItem('chat:activeSessionId', data.id)
+      router.replace(`/nav/chat?session=${data.id}`)
     }
   }
 

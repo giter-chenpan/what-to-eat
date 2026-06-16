@@ -1,21 +1,9 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import type { ChatMessageDto } from '@repo/request'
 import request from '@/common/request'
 import type { ChatMessage } from '../_lib/types'
-
-interface MessageListRep {
-  page: number
-  total: number
-  list: Array<{
-    id: string
-    role: 'user' | 'assistant' | 'tool'
-    content: string
-    status: 'complete' | 'failed'
-    tool_name?: string | null
-    created_at: string
-  }>
-}
 
 export function useChatSession(sessionId: string | null) {
   return useQuery<ChatMessage[]>({
@@ -23,15 +11,16 @@ export function useChatSession(sessionId: string | null) {
     enabled: Boolean(sessionId),
     queryFn: async () => {
       if (!sessionId) return []
-      const { data } = await request.instance.post<MessageListRep>(
-        `/api/chat/sessions/${sessionId}/messages/list`,
-        { page: 1, page_size: 200 },
-      )
+      const { data } = await request.api.apiChatListMessages(sessionId, {
+        page: 1,
+        page_size: 200,
+      })
+      if (!data) return []
       return data.list
-        .filter((m) => m.role !== 'tool')
+        .filter((m: ChatMessageDto) => m.role !== 'tool')
         .map<ChatMessage>((m) => ({
           id: m.id,
-          role: m.role,
+          role: m.role as ChatMessage['role'],
           content: m.content,
           status: m.status === 'complete' ? 'complete' : 'failed',
           toolName: m.tool_name ?? undefined,
