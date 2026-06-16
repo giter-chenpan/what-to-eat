@@ -99,7 +99,7 @@ The `_components/` and `_hooks/` folders use the underscore prefix so Next.js do
 - **page.tsx (chat)**: combines `useChatStream`, `useChatSession`, and the components; no data work
 - **page.tsx (sessions)**: list of sessions, new/delete actions
 - **ChatHeader**: back button (chat → home), title, sessions button
-- **MessageList**: virtualized-friendly list, renders bubbles
+- **MessageList**: renders all messages for the current session; v1 does not use virtualization (acceptable for ≤200 messages)
 - **MessageBubble**: user/assistant bubble; tool messages are filtered out
 - **MessageInput**: `TextArea` + send/stop button
 - **ToolLoading**: small banner "正在查询菜谱库..." — shown when SSE sent a tool-related event but no `delta` yet
@@ -261,4 +261,4 @@ None — all design decisions approved in brainstorming session.
 
 - **SSE parser must be correct**: malformed chunks must not crash the stream. Mitigated by `try/catch` per event.
 - **Race conditions** when user sends multiple messages quickly. Mitigated by `AbortController` per send; previous in-flight request is aborted.
-- **Message list virtualization**: if a session has 200+ messages, rendering all of them will be slow. For v1 we keep it simple (render all); revisit if perf is an issue.
+- **Message list scalability**: v1 renders all messages without virtualization. The backend caps `page_size` at 200; if perf becomes an issue, add a virtualized list (e.g., `react-window`) and implement windowed pagination.
