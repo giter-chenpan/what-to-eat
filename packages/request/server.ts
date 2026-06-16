@@ -188,6 +188,107 @@ export interface DeleteTimesParams {
   id: number;
 }
 
+export interface RepForChatSessionDto {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: ChatSessionDto | null;
+}
+
+export interface ChatSessionDto {
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateSessionReq {
+  title?: string | null;
+}
+
+export interface RepForChatSessionListRep {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: ChatSessionListRep | null;
+}
+
+export interface ChatSessionListRep {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page: number;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  total: number;
+  list: ChatSessionDto[];
+}
+
+export interface SessionListParams {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page?: number | null;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page_size?: number | null;
+}
+
+export interface RepForChatMessageListRep {
+  /** @format int32 */
+  code: number;
+  msg: string;
+  data?: ChatMessageListRep | null;
+}
+
+export interface ChatMessageListRep {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page: number;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  total: number;
+  list: ChatMessageDto[];
+}
+
+export interface ChatMessageDto {
+  id: string;
+  role: string;
+  content: string;
+  status: string;
+  tool_call_id?: string | null;
+  tool_name?: string | null;
+  tool_args?: string | null;
+  created_at: string;
+}
+
+export interface MessageListParams {
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page?: number | null;
+  /**
+   * @format uint64
+   * @min 0
+   */
+  page_size?: number | null;
+}
+
+export interface SendMessageReq {
+  content: string;
+}
+
 export namespace Anon {
   /**
    * No description
@@ -479,6 +580,105 @@ export namespace Api {
     export type RequestBody = DeleteTimesParams;
     export type RequestHeaders = {};
     export type ResponseBody = RepForNullableNull;
+  }
+
+  /**
+   * No description
+   * @tags chat
+   * @name ApiChatCreateSession
+   * @request POST:/api/chat/sessions
+   * @response `200` `RepForChatSessionDto`
+   */
+  export namespace ApiChatCreateSession {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = CreateSessionReq;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForChatSessionDto;
+  }
+
+  /**
+   * No description
+   * @tags chat
+   * @name ApiChatListSessions
+   * @request POST:/api/chat/sessions/list
+   * @response `200` `RepForChatSessionListRep`
+   */
+  export namespace ApiChatListSessions {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = SessionListParams;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForChatSessionListRep;
+  }
+
+  /**
+   * No description
+   * @tags chat
+   * @name ApiChatGetSession
+   * @request GET:/api/chat/sessions/{id}
+   * @response `200` `RepForChatSessionDto`
+   */
+  export namespace ApiChatGetSession {
+    export type RequestParams = {
+      id: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForChatSessionDto;
+  }
+
+  /**
+   * No description
+   * @tags chat
+   * @name ApiChatDeleteSession
+   * @request DELETE:/api/chat/sessions/{id}
+   * @response `200` `RepForNull`
+   */
+  export namespace ApiChatDeleteSession {
+    export type RequestParams = {
+      id: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForNull;
+  }
+
+  /**
+   * No description
+   * @tags chat
+   * @name ApiChatListMessages
+   * @request POST:/api/chat/sessions/{id}/messages/list
+   * @response `200` `RepForChatMessageListRep`
+   */
+  export namespace ApiChatListMessages {
+    export type RequestParams = {
+      id: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = MessageListParams;
+    export type RequestHeaders = {};
+    export type ResponseBody = RepForChatMessageListRep;
+  }
+
+  /**
+   * No description
+   * @tags chat
+   * @name ApiChatSendMessageStream
+   * @request POST:/api/chat/sessions/{id}/messages
+   * @response `200` `string`
+   * @response `default` `void`
+   */
+  export namespace ApiChatSendMessageStream {
+    export type RequestParams = {
+      id: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = SendMessageReq;
+    export type RequestHeaders = {};
+    export type ResponseBody = string;
   }
 }
 
@@ -985,6 +1185,110 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags chat
+     * @name ApiChatCreateSession
+     * @request POST:/api/chat/sessions
+     * @response `200` `RepForChatSessionDto`
+     */
+    apiChatCreateSession: (data: CreateSessionReq, params: RequestParams = {}) =>
+      this.request<RepForChatSessionDto, any>({
+        path: `/api/chat/sessions`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags chat
+     * @name ApiChatListSessions
+     * @request POST:/api/chat/sessions/list
+     * @response `200` `RepForChatSessionListRep`
+     */
+    apiChatListSessions: (data: SessionListParams, params: RequestParams = {}) =>
+      this.request<RepForChatSessionListRep, any>({
+        path: `/api/chat/sessions/list`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags chat
+     * @name ApiChatGetSession
+     * @request GET:/api/chat/sessions/{id}
+     * @response `200` `RepForChatSessionDto`
+     */
+    apiChatGetSession: (id: string, params: RequestParams = {}) =>
+      this.request<RepForChatSessionDto, any>({
+        path: `/api/chat/sessions/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags chat
+     * @name ApiChatDeleteSession
+     * @request DELETE:/api/chat/sessions/{id}
+     * @response `200` `RepForNull`
+     */
+    apiChatDeleteSession: (id: string, params: RequestParams = {}) =>
+      this.request<RepForNull, any>({
+        path: `/api/chat/sessions/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags chat
+     * @name ApiChatListMessages
+     * @request POST:/api/chat/sessions/{id}/messages/list
+     * @response `200` `RepForChatMessageListRep`
+     */
+    apiChatListMessages: (id: string, data: MessageListParams, params: RequestParams = {}) =>
+      this.request<RepForChatMessageListRep, any>({
+        path: `/api/chat/sessions/${id}/messages/list`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags chat
+     * @name ApiChatSendMessageStream
+     * @request POST:/api/chat/sessions/{id}/messages
+     * @response `200` `string`
+     * @response `default` `void`
+     */
+    apiChatSendMessageStream: (id: string, data: SendMessageReq, params: RequestParams = {}) =>
+      this.request<string, void>({
+        path: `/api/chat/sessions/${id}/messages`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
