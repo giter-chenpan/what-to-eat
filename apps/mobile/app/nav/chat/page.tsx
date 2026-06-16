@@ -57,7 +57,7 @@ function ChatPageInner() {
   return (
     <div
       className="flex flex-col h-full bg-white"
-      style={{ paddingBottom: 'calc(50px + env(safe-area-inset-bottom))' }}
+      style={{ paddingBottom: 'calc(80px + env(safe-area-inset-bottom))' }}
     >
       <ChatHeader />
       {isToolLoading && <ToolLoading />}
